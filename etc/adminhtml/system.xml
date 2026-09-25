@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="customer_2fa" translate="label" sortOrder="135" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Two-Factor Authentication</label>
+            <tab>customer</tab>
+            <resource>MageOS_LoginTwoFactorAuth::config</resource>
+            <group id="general" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Storefront Two-Factor Authentication</label>
+                <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Customers can opt in to 2FA from "My Account". When disabled, customers who activated 2FA sign in with password only.</comment>
+                </field>
+                <field id="issuer" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Issuer Name</label>
+                    <comment>Name shown in the authenticator app. Leave empty to use the store name.</comment>
+                    <depends><field id="enabled">1</field></depends>
+                </field>
+                <field id="leeway" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Clock Tolerance</label>
+                    <source_model>MageOS\LoginTwoFactorAuth\Model\Config\Source\Leeway</source_model>
+                    <comment>Accept codes from adjacent 30-second windows to tolerate clock drift on the customer's phone.</comment>
+                    <depends><field id="enabled">1</field></depends>
+                </field>
+                <field id="max_attempts" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Max Code Attempts per Sign-in</label>
+                    <validate>required-entry validate-digits validate-greater-than-zero</validate>
+                    <comment>After this many wrong codes the customer must sign in again. Wrong codes also count towards the account lockout (Customer Configuration > Password Options).</comment>
+                    <depends><field id="enabled">1</field></depends>
+                </field>
+                <field id="recovery_codes" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Number of Recovery Codes</label>
+                    <validate>required-entry validate-digits validate-digits-range digits-range-1-20</validate>
+                    <depends><field id="enabled">1</field></depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

@@ -1,0 +1,16 @@
+{
+    "mageos_customer_tfa": {
+        "column": {
+            "customer_id": true,
+            "secret": true,
+            "recovery_codes": true,
+            "last_timestep": true,
+            "created_at": true,
+            "updated_at": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "MAGEOS_CUSTOMER_TFA_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID": true
+        }
+    }
+}

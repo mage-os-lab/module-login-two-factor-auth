@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="mageos_customer_tfa" resource="default" engine="innodb" comment="Customer Two-Factor Authentication (TOTP)">
+        <column xsi:type="int" name="customer_id" unsigned="true" nullable="false" comment="Customer ID"/>
+        <column xsi:type="text" name="secret" nullable="false" comment="Encrypted TOTP secret"/>
+        <column xsi:type="text" name="recovery_codes" nullable="true" comment="JSON list of hashed recovery codes"/>
+        <column xsi:type="bigint" name="last_timestep" unsigned="true" nullable="false" default="0" comment="Last accepted TOTP time-step (replay protection)"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Enabled At"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP" comment="Updated At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="customer_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="MAGEOS_CUSTOMER_TFA_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID"
+                    table="mageos_customer_tfa" column="customer_id"
+                    referenceTable="customer_entity" referenceColumn="entity_id" onDelete="CASCADE"/>
+    </table>
+</schema>

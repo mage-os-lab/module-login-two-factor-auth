@@ -1,0 +1,49 @@
+<?php
+
+declare(strict_types=1);
+
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+use MageOS\LoginTwoFactorAuth\ViewModel\Login;
+
+/** @var Escaper $escaper */
+/** @var Template $block */
+/** @var Login $viewModel */
+$viewModel = $block->getData('view_model');
+?>
+<style>
+    .mageos-tfa-login { max-width: 28rem; margin-left: auto; margin-right: auto; }
+    .mageos-tfa-login .tfa-code-input { letter-spacing: .3em; text-align: center; font-size: 1.25rem; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .mageos-tfa-login .tfa-code-input--recovery { letter-spacing: .1em; }
+</style>
+<div class="mageos-tfa-login card" x-data="{ recovery: false, submitting: false }">
+    <form method="post" action="<?= $escaper->escapeUrl($viewModel->getVerifyUrl()) ?>"
+          @submit="if (submitting) { $event.preventDefault(); } submitting = true" class="space-y-4">
+        <?= $block->getBlockHtml('formkey') ?>
+        <h2 class="text-xl font-semibold"><?= $escaper->escapeHtml(__('Two-Factor Authentication')) ?></h2>
+        <p x-show="!recovery">
+            <?= $escaper->escapeHtml(__('Open your authenticator app and enter the 6-digit code for this account.')) ?>
+        </p>
+        <p x-show="recovery" x-cloak>
+            <?= $escaper->escapeHtml(__('Enter one of the recovery codes you saved when you enabled two-factor authentication.')) ?>
+        </p>
+        <div>
+            <label class="label sr-only" for="tfa-code"><?= $escaper->escapeHtml(__('Authentication code')) ?></label>
+            <input id="tfa-code" name="code" type="text" class="form-input w-full tfa-code-input"
+                   :class="{ 'tfa-code-input--recovery': recovery }"
+                   :inputmode="recovery ? 'text' : 'numeric'"
+                   :placeholder="recovery ? 'xxxxx-xxxxx' : '000000'"
+                   inputmode="numeric" placeholder="000000"
+                   autocomplete="one-time-code" autocapitalize="off" spellcheck="false"
+                   maxlength="16" required autofocus>
+        </div>
+        <button type="submit" class="btn btn-primary w-full justify-center" :disabled="submitting"><?= $escaper->escapeHtml(__('Verify')) ?></button>
+        <div class="flex flex-wrap justify-between gap-4 text-sm">
+            <button type="button" class="underline" @click="recovery = !recovery; $nextTick(() => document.getElementById('tfa-code').focus())">
+                <span x-show="!recovery"><?= $escaper->escapeHtml(__('Use a recovery code')) ?></span>
+                <span x-show="recovery" x-cloak><?= $escaper->escapeHtml(__('Use the authenticator app')) ?></span>
+            </button>
+            <a class="underline" href="<?= $escaper->escapeUrl($viewModel->getCancelUrl()) ?>"><?= $escaper->escapeHtml(__('Cancel')) ?></a>
+        </div>
+    </form>
+</div>

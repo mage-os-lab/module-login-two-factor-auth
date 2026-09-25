@@ -1,0 +1,42 @@
+{
+  "name": "mage-os/module-login-two-factor-auth",
+  "description": "Opt-in TOTP two-factor authentication for storefront customers on Mage-OS / Magento 2: authenticator apps, recovery codes, Hyvä frontend.",
+  "type": "magento2-module",
+  "keywords": ["mage-os", "magento2", "2fa", "two-factor", "totp", "customer", "security", "hyva"],
+  "license": [
+    "MIT"
+  ],
+  "authors": [
+    {
+      "name": "Gianluca Porta",
+      "email": "gporta@gianlucaporta.it"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/mage-os-lab/module-login-two-factor-auth/issues",
+    "source": "https://github.com/mage-os-lab/module-login-two-factor-auth"
+  },
+  "require": {
+    "php": "^8.1",
+    "magento/framework": "*",
+    "magento/module-backend": "*",
+    "magento/module-config": "*",
+    "magento/module-customer": "*",
+    "magento/module-store": "*",
+    "magento/module-ui": "*",
+    "spomky-labs/otphp": "^11.0",
+    "endroid/qr-code": "^5.0 || ^6.0",
+    "paragonie/constant_time_encoding": "^2.0 || ^3.0"
+  },
+  "suggest": {
+    "hyva-themes/magento2-default-theme": "Frontend templates target the Hyvä theme"
+  },
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "MageOS\\LoginTwoFactorAuth\\": ""
+    }
+  }
+}

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <customer_2fa>
+            <general>
+                <enabled>0</enabled>
+                <issuer/>
+                <leeway>1</leeway>
+                <max_attempts>5</max_attempts>
+                <recovery_codes>10</recovery_codes>
+            </general>
+        </customer_2fa>
+    </default>
+</config>

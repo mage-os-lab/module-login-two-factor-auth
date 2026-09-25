@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="MageOS\LoginTwoFactorAuth\Model\LoginGuard">
+        <arguments>
+            <argument name="session" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Customer\Model\Session">
+        <plugin name="mageos_customer_tfa_session" type="MageOS\LoginTwoFactorAuth\Plugin\Customer\SessionPlugin"/>
+    </type>
+
+    <!-- Logins that re-establish an already authenticated customer -->
+    <type name="Magento\Customer\Model\StoreSwitcher\RedirectDataPostprocessor">
+        <plugin name="mageos_customer_tfa_trusted" type="MageOS\LoginTwoFactorAuth\Plugin\TrustedLoginPlugin"/>
+    </type>
+    <type name="Magento\Store\Controller\Store\SwitchRequest">
+        <plugin name="mageos_customer_tfa_trusted" type="MageOS\LoginTwoFactorAuth\Plugin\TrustedLoginPlugin"/>
+    </type>
+    <type name="Magento\LoginAsCustomer\Model\AuthenticateCustomerBySecret">
+        <plugin name="mageos_customer_tfa_trusted" type="MageOS\LoginTwoFactorAuth\Plugin\TrustedLoginPlugin"/>
+    </type>
+
+    <type name="MageOS\LoginTwoFactorAuth\Console\Command\ResetCommand">
+        <arguments>
+            <argument name="customerRepository" xsi:type="object">Magento\Customer\Api\CustomerRepositoryInterface\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\Console\CommandListInterface">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="mageos_customer_tfa_reset" xsi:type="object">MageOS\LoginTwoFactorAuth\Console\Command\ResetCommand</item>
+            </argument>
+        </arguments>
+    </type>
+</config>
